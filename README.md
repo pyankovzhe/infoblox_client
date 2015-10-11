@@ -1,6 +1,5 @@
 # InfobloxClient
-Simple Ruby client for the Infoblox WAPI
-It is not finished.
+Simple Ruby client for the Infoblox WAPI. It is not finished.
 ## Installation
 
 Add this line to your application's Gemfile:
