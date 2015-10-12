@@ -1,5 +1,4 @@
-$LOAD_PATH.unshift File.expand_path('../../lib', __FILE__)
-require 'infoblox_client'
+require_relative '../lib/infoblox_client'
 
 RSpec.configure do |config|
 end
