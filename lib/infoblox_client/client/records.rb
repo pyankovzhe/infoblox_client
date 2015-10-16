@@ -3,7 +3,7 @@ module InfobloxClient
     module Records
 
       def all_records_in_zone(zone)
-        get("allrecords?_return_fields=zone,type,name,address&zone=#{zone}")
+        get("allrecords?_return_fields=zone,address&zone=#{zone}")
       end
 
       def get_record(ref)
@@ -25,7 +25,19 @@ module InfobloxClient
         delete(ref)
       end
 
+      def soa_record(ref)
+        get("#{ref}?_return_fields=#{soa_data}")
+      end
+
+      def member_dns
+        get('member:dns').last
+      end
+
       private
+
+      def soa_data
+        'soa_serial_number,soa_email,soa_expire,soa_retry,soa_refresh,soa_default_ttl,soa_negative_ttl'
+      end
 
       def handle_record_attributes(attrs)
         type = attrs['type'].downcase if attrs['type']
