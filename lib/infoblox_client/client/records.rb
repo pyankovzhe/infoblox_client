@@ -29,10 +29,6 @@ module InfobloxClient
         get("#{ref}?_return_fields=#{soa_data}")
       end
 
-      def member_dns
-        get('member:dns').last
-      end
-
       private
 
       def soa_data

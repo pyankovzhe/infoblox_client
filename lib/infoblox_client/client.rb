@@ -34,6 +34,8 @@ module InfobloxClient
       handle_response(&delete_request)
     end
 
+    private
+
     def handle_response(&block)
       response = block.call
       if response.status < 300
