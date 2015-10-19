@@ -34,7 +34,9 @@ module InfobloxClient
       handle_response(&delete_request)
     end
 
-    private
+    def dns_member
+      get('member:dns').last
+    end
 
     def handle_response(&block)
       response = block.call

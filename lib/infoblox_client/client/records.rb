@@ -6,15 +6,15 @@ module InfobloxClient
         get("allrecords?_return_fields=zone,address&zone=#{zone}")
       end
 
-      def get_record(ref)
-          get(ref)
+      def record(ref)
+        get(ref)
       end
 
-      def add_record(attrs={})
-        body = handle_record_attributes(attrs)
-        body_json = JSON.dump(body)
-        if !body_json.empty?
-          post_request = -> { post("record:#{attrs['type'].downcase}", body_json) }
+      def create_record(attrs={})
+        type = attrs.delete(:type)
+        body = JSON.dump(attrs)
+        if !body.empty?
+          post_request = -> { post("record:#{type.downcase}", body) }
           handle_response(&post_request)
         else
           { 'error_message' => 'Incorrect type of record' }
@@ -33,28 +33,6 @@ module InfobloxClient
 
       def soa_data
         'soa_serial_number,soa_email,soa_expire,soa_retry,soa_refresh,soa_default_ttl,soa_negative_ttl'
-      end
-
-      def handle_record_attributes(attrs)
-        type = attrs['type'].downcase if attrs['type']
-        case type
-        when 'a'
-          { name: attrs['domain'], ipv4addr: attrs['address'] }
-        when 'aaaa'
-          { name: attrs['domain'], ipv6addr: attrs['address'] }
-        when 'ptr'
-          { ptrdname: attrs['domain'], ipv4addr: attrs['address'] }
-        when 'cname'
-          { canonical: attrs['domain'], name: attrs['alias'] }
-        when 'txt'
-          { name: attrs['domain'], text: attrs['text'] }
-        when 'srv'
-          { name: attrs['name'], port: attrs['port'], priority: attrs['priority'], target: attrs['target'], weight: attrs['weight'] }
-        when 'mx'
-          { name: attrs['domain'], mail_exchanger: attrs['mail_exchanger'], preference: attrs['preference'] }
-        else
-          {}
-        end
       end
     end
   end

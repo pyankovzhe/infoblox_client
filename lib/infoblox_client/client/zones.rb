@@ -2,11 +2,11 @@ module InfobloxClient
   class Client
     module Zones
 
-      def all_zones
+      def zones
         get('zone_auth')
       end
 
-      def get_zone(ref)
+      def zone(ref)
         get(ref)
       end
 
@@ -14,7 +14,6 @@ module InfobloxClient
         delete(ref)
       end
 
-      #attrs = ({'fqdn' => 'o7.com'})
       def create_zone(attrs={})
         body = attrs.merge({'view' => 'default', 'ns_group' => 'NSGroup'})
         body_json = JSON.dump(body)
@@ -22,7 +21,6 @@ module InfobloxClient
         handle_response(&post_request)
       end
 
-      #'o7.com'
       def zone_exist?(name)
         response = get("zone_auth?fqdn=#{name}")
         !response.empty?
