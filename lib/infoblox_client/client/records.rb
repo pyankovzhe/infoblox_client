@@ -14,7 +14,7 @@ module InfobloxClient
         type = attrs.delete(:type)
         body = JSON.dump(attrs)
         if !body.empty?
-          post_request = -> { post("record:#{type.downcase}", body) }
+          post_request = -> { post("record:#{type}", body) }
           handle_response(&post_request)
         else
           { 'error_message' => 'Incorrect type of record' }
