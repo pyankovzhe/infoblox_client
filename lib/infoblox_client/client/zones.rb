@@ -15,8 +15,7 @@ module InfobloxClient
       end
 
       def create_zone(attrs={})
-        body = attrs.merge({'view' => 'default'})
-        body_json = JSON.dump(body)
+        body_json = JSON.dump(attrs)
         post_request = -> { post('zone_auth', body_json) }
         handle_response(&post_request)
       end
