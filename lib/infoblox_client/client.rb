@@ -6,15 +6,19 @@ module InfobloxClient
     include InfobloxClient::Client::Records
     include InfobloxClient::Client::Zones
 
-    def initialize(host, username, password)
+    def initialize(attrs)
       @host = "https://#{host}/wapi/v2.1/"
       @username = username
       @password = password
     end
 
     def connection
-      client = HTTPClient.new
-      client.set_auth(@host, @username, @password)
+      client = HTTPClient.new(base_url: @host, default_header:{  
+        'Authorization' => "Basic #{Base64.strict_encode64 "#{@username}:#{@password}"}"
+      })    
+      client.connect_timeout = 180
+      client.send_timeout = 240
+      client.receive_timeout = 180
       client.ssl_config.verify_mode = OpenSSL::SSL::VERIFY_NONE
       client
     end
